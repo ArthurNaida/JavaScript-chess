@@ -1,0 +1,136 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 600;
+}
+.top-bar {
+    position: relative;
+    box-sizing: content-box;
+    background-color: aqua;
+    height: 60px;
+    width: 100%;
+}
+.top-bar > div {
+    display: inline-block;
+}
+.top-bar_left {
+    position: absolute;
+    text-decoration-line: line-through;
+    bottom: 0;
+}
+a {
+    display: inline-block;
+    color: black;
+    text-decoration: none;
+    padding-left: 60px;
+    padding-right: 60px;
+    height: 100%;
+}
+a:hover, .drop-box:hover {
+    background-color: white;
+    opacity: 50%;
+}
+.top-bar_right {
+    position: absolute;
+    right: 0%;
+    height: 100%;
+}
+ .top-bar_right .text-in-button {
+    margin-top: 20px;
+}
+.drop-box {
+    display: inline-block;
+    padding-right: 30px;
+    padding-left: 30px;
+    height: 100%;
+    font: inherit;
+    font-size: large;
+
+}
+.drop-box_table {
+    display: none;
+    float: right;
+    background-color: white;
+    box-shadow: 0 0 10px black;
+    width: 20%;
+    /* animation: ani-open 0.75s; */
+}
+@keyframes ani-open {
+    from {
+        transform: translateX(250px);
+        opacity: 0%;
+    }
+    to {
+        transform: translateX(0px);
+        opacity: 100%;
+    }
+}
+@keyframes ani-close {
+    from {
+        transform: translateX(0);
+        opacity: 100%
+    }
+    to {
+        transform: translateX(250px);
+        opacity: 0%;
+    }
+}
+.drop-box_table .row {
+    position: relative;
+    height: 60px;
+    vertical-align: middle;
+}
+.drop-box_table .row:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+}
+.drop-box_table .row div {
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    font-weight: 300;
+}
+
+.info {
+    margin-top: 70px;
+    text-align: center;
+}
+.main-page {
+    display: block;
+}
+.catalog-page {
+    display: none;
+}
+.about_me-page {
+    display: none;
+}
+
+@keyframes gogo {
+    from {
+        margin-top: 150px;
+        border-radius: 50%;
+        background-color: aqua;
+    }
+    50% {
+        margin-top: 400px;
+        border-radius: 20%;
+        background-color: black;
+    }
+    to {
+        margin-top: 150px;
+        border-radius: 50%;
+        background-color: aqua;
+    }
+}
+.animation {
+    width: 100px;
+    height: 100px;
+    margin-top: 150px;
+    margin-left: 50%;
+    background-color: brown;
+    align-content: center;
+    animation-duration: 2s;
+    animation-name: gogo;
+    animation-iteration-count: infinite;
+    vertical-align: middle;
+}

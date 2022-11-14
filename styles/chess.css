@@ -1,0 +1,13 @@
+.cell {
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+}
+.row {
+    width: max-content
+}
+.desk {
+    margin-left: 20%;
+    width: min-content;
+    border: 5px solid red
+}
