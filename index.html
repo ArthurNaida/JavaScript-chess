@@ -24,7 +24,7 @@
                 <h1>Something like website</h1>
             </div>
             <div class="top-bar_right">
-                    <a href = "test.html" class="main-button" id="btn_1">
+                    <a href = "index.html" class="main-button" id="btn_1">
                         <div class="text-in-button">Main</div>
                     </a>
                     <a href = "catalog.html" class="catalog-button" id="btn_2">
@@ -51,6 +51,18 @@
         </div> <!--Top bar-->
 
         <div class="info">
+            <div class="init-player-form" id="initPlayerForm">
+                <div class="init-player-form-container">
+                    Выберите цвет:
+                    <form action="/index.html" method="post">
+                        <input type= "radio" id="white" name="init-color" value="white">
+                        <label for="white">Белый</label><br>
+                        <input type= "radio" id="black" name="init-color" value="black">
+                        <label for="black">Черный</label><br>
+                        <input type= "submit" value="Подтвердить">
+                    </form>
+                </div>
+            </div>
             <div class="desk" id="chessDesk">
                 <h1 class="greeting">Шахматы!</h1>
                 <div class ="row">
@@ -136,9 +148,10 @@
             </div>
             
         </div>
-    
+        <script src="scripts/interface.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script type="module" src="scripts/chess.js" defer></script>
-        <script type="module" src="scripts/test.js" defer></script>
+        <script type="module" src="scripts/run.js" defer></script>
         <!-- <script>
 
         </script> -->

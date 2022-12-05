@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/test.css">
+    <title>form</title>
+</head>
+<body>
+    <div class="init-player-form" id="initPlayerForm">
+        <div class="init-player-form-container">
+            Выберите цвет:
+            <form action="/index.html" method="post">
+                <input type= "radio" id="white" name="init-color" value="white">
+                <label for="white">Белый</label><br>
+                <input type= "radio" id="black" name="init-color" value="black">
+                <label for="black">Черный</label><br>
+                <input type= "submit" value="Подтвердить">
+            </form>
+        </div>
+    </div>
+    <script src="scripts/form.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>
