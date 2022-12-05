@@ -1,14 +1,14 @@
-// const rows = Array.from(chessDesk.querySelectorAll(".row"))
-// const cells = new Array
-// const cellsContent = new Array
-// let img_src = 'chess_icons/'
-// let figures = new Array
+const rows = Array.from(chessDesk.querySelectorAll(".row"))
+const cells = new Array
+const cellsContent = new Array
+let img_src = 'chess_icons/'
+let figures = new Array
 
-// const players = new Array
+const players = new Array
 
-// rows.forEach(row => {
-//     cellsContent.push(Array.from(row.querySelectorAll(".cell")))
-// });
+rows.forEach(row => {
+    cellsContent.push(Array.from(row.querySelectorAll(".cell")))
+});
 
 function isEmpty(obj) {
     for (var i in obj) {
@@ -50,6 +50,7 @@ function drawCells(cells) {
 
 function initPlayers(players) {
     players.push({
+        id: "",
         color: 'white',
         isMove: true,
         hasCheck: false,
@@ -57,6 +58,7 @@ function initPlayers(players) {
         hasDraw: false,
         hasFailed: false
     }, {
+        id: "",
         color: 'black',
         isMove: false,
         hasCheck: false,
@@ -66,7 +68,7 @@ function initPlayers(players) {
     })
 }
 
-function changePlayerMove (players) {
+export function changePlayerMove (players) {
     let activePlayer = players.find(e => e.isMove === true)
     let inactivePlayer = players.find(e => e.isMove === false)
 
@@ -134,7 +136,7 @@ function eatFigure(figures, figure) {
     }
 }
 
-function drawFigures(cells, figures) {
+export function drawFigures(cells, figures) {
     cells.map(cell => {
         cell.content.style.backgroundImage = 'none';
     })
@@ -473,12 +475,6 @@ function filterMovesAfterCheck(players, cells, figures, player, enemy, figure) {
     }
 }
 
-function figurePin(player, enemy, figure) {
-    figures.map(figure => {
-        filterMovesAfterCheck(player, enemy, figure)
-    })
-}
-
 function staleMate(figures, player, enemy) {
     let playerFigures = figures.filter(figure => figure.color === player.color)
     let enemyFigures = figures.filter(figure => figure.color === enemy.color)
@@ -506,115 +502,105 @@ function checkMate(players, cells, figures, player, enemy) {
     }
 }
 
-function chessListen(players, cells, figures) {
-    document.addEventListener("DOMContentLoaded", () => {
-        let active = {
-            cell: new Object,
-            figure: new Object
-        }
-        let target = {
-            cell: new Object,
-            figure: new Object
-        }
-        let player = new Object
-        let enemy = new Object
+export function changeChessState(players, cells, figures) {
+    let player = players.find( e => e.isMove === true)
+    let enemy = players.find( e => e.isMove === false)
 
-        cells.map(cell => {
-            cell.content.onclick = function() {
-                player = players.find( e => e.isMove === true)
-                enemy = players.find( e => e.isMove === false)
+    drawFigures(cells, figures)
 
-                if (Object.keys(active.cell).length) {
-                    target.cell = cell
-                    target.figure = figureOnCell(target.cell, figures)
-
-                    if (Object.keys(active.figure).length) {
-                        for (let cell of active.figure.availableCells) {
-                            cell.content.style.backgroundColor = cell.color
-                        }
-                    }
-
-                    active.cell.content.style.backgroundColor = active.cell.color
-                    active.cell = {}
-                    
-                    if (active.figure.color !== target.figure.color && player.color === active.figure.color) {
-                        if (canMove(active.figure, target.cell) && active.figure.color !== target.figure.color &&
-                        player.color === active.figure.color) {
-                            if (Object.keys(active.figure).length && active.figure !== target.figure) {
-                                moveFigure(figures, active.figure, target.cell)
-                                eatFigure(figures, target.figure)
-                            }
-                            else {
-                                moveFigure(figures, active.figure, target.cell)
-                            }
-
-                            getAvailableAttacksForAll(players, cells, figures)
-
-                            if (isCheck(figures, enemy)) {
-                                enemy.hasCheck = true
-                            }
-                            console.log(figures)
-                            if (staleMate(figures, enemy, player)) {
-                                enemy.hasDraw = true
-                                player.hasDraw = true
-                            }
-
-                            if (checkMate(players, cells, figures, enemy, player)) {
-                                enemy.hasFailed = true
-                            }
-
-                            if (player.hasCheck) {
-                                player.hasCheck = false
-                            }
-
-                            drawFigures(cells, figures)
-                            changePlayerMove(players)
-
-                            if (enemy.hasFailed) {
-                                document.querySelector('.greeting').textContent = 'Шах и мат!!!'
-                            }
-                            else if (enemy.hasDraw) {
-                                document.querySelector('.greeting').textContent = 'Пат!'
-                            }
-                            else {
-                                document.querySelector('.greeting').textContent = (player.color === 'white' ? "Ход черных" : "Ход белых")
-                            }
-
-                            return {'players': players, 'cells': cells, 'figures': figures}
-                        }
-                    }
-                }
-
-                else {
-                    
-                        cell.content.style.backgroundColor = 'green'
-                        active.figure = figureOnCell(cell, figures)
-                        active.cell = cell
-
-                        getAvailableCellsForAll(players, cells, figures)
-                        getAvailableAttacksForAll(players, cells, figures)
-
-                        if (Object.keys(active.figure).length) {
-                            filterMovesAfterCheck(players, cells, figures, player, enemy, active.figure)
-
-                            if (player.color === active.figure.color) {
-                                drawAvailableCells(active.figure)
-                            }
-                        }
-                }
-            }
-        })
-    })
+    if (player.hasFailed) {
+        document.querySelector('.greeting').textContent = 'Шах и мат!!!'
+    }
+    else if (player.hasDraw) {
+        document.querySelector('.greeting').textContent = 'Пат!'
+    }
+    else {
+        document.querySelector('.greeting').textContent = (enemy.color === 'white' ? "Ход черных" : "Ход белых")
+    }
 }
 
-export function chessRun(players, cells, figures, img_src) {
+export function chessState(players, cells, figures, target, active, cell) {
+            let player = players.find( e => e.isMove === true)
+            let enemy = players.find( e => e.isMove === false)
+
+            if (Object.keys(active.cell).length) {
+                target.cell = cell
+                target.figure = figureOnCell(target.cell, figures)
+
+                if (Object.keys(active.figure).length) {
+                    for (let cell of active.figure.availableCells) {
+                        cell.content.style.backgroundColor = cell.color
+                    }
+                }
+
+                active.cell.content.style.backgroundColor = active.cell.color
+                active.cell = {}
+                
+                if (active.figure.color !== target.figure.color && player.color === active.figure.color) {
+                    if (canMove(active.figure, target.cell) && active.figure.color !== target.figure.color &&
+                    player.color === active.figure.color) {
+                        if (Object.keys(active.figure).length && active.figure !== target.figure) {
+                            moveFigure(figures, active.figure, target.cell)
+                            eatFigure(figures, target.figure)
+                        }
+                        else {
+                            moveFigure(figures, active.figure, target.cell)
+                        }
+
+                        getAvailableAttacksForAll(players, cells, figures)
+
+                        if (isCheck(figures, enemy)) {
+                            enemy.hasCheck = true
+                        }
+                        console.log(figures)
+                        if (staleMate(figures, enemy, player)) {
+                            enemy.hasDraw = true
+                            player.hasDraw = true
+                        }
+
+                        if (checkMate(players, cells, figures, enemy, player)) {
+                            enemy.hasFailed = true
+                        }
+
+                        if (player.hasCheck) {
+                            player.hasCheck = false
+                        }
+
+                        changePlayerMove(players)
+
+                        changeChessState(players, cells, figures)
+
+                        return {'players': players, 'figures': figures}
+                    }
+                }
+            }
+
+            else {
+                
+                    cell.content.style.backgroundColor = 'green'
+                    active.figure = figureOnCell(cell, figures)
+                    active.cell = cell
+
+                    getAvailableCellsForAll(players, cells, figures)
+                    getAvailableAttacksForAll(players, cells, figures)
+
+                    if (Object.keys(active.figure).length) {
+                        filterMovesAfterCheck(players, cells, figures, player, enemy, active.figure)
+
+                        if (player.color === active.figure.color) {
+                            drawAvailableCells(active.figure)
+                        }
+                    }
+            }
+}
+
+export function chessInit(players, cells, figures, img_src) { //export function
     initFigures(figures, img_src)
     getCells(cells);
     initPlayers(players);
     drawCells(cells);
     drawFigures(cells, figures);
     console.log(players, figures, cells);
-    chessListen(players, cells, figures);
 }
 
-//chessRun(players, cells, figures)
+//chessRun(players, cells, figures, img_src)
